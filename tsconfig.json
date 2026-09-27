@@ -1,0 +1,30 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "outDir": "./dist/out-tsc",
+    "sourceMap": false,
+    "declaration": false,
+    "moduleResolution": "node",
+    "skipLibCheck": true,
+    "target": "es5",
+    "typeRoots": [
+      "./node_modules/@types"
+    ],
+    "lib": [
+      "es2017",
+      "dom"
+    ],
+    "noImplicitAny": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": false,
+    "baseUrl": ".",
+    "paths": {
+      "@logic-incubator/*": ["../logic-incubator/src/*"]
+    }
+  },
+  "include": [
+    "src",
+    // The engine's ambient declarations (e.g. its shader imports) - its .ts files come in through imports.
+    "../logic-incubator/src/**/*.d.ts"
+  ]
+}
