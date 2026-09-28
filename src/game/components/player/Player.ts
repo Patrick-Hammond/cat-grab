@@ -1,8 +1,8 @@
 import gsap, {Linear, Power3} from "gsap";
 import {AnimatedSprite} from "pixi.js";
-import GameComponent from "@logic-incubator/_lib/game/GameComponent";
-import {Vec2, Vec2Like} from "@logic-incubator/_lib/math/Geometry";
-import {Direction} from "@logic-incubator/_lib/utils/Types";
+import GameComponent from "@logic-incubator/lib/game/GameComponent";
+import {Vec2, Vec2Like} from "@logic-incubator/lib/math/Geometry";
+import {Direction} from "@logic-incubator/lib/utils/Types";
 import {PLAYER_MOVED, ROUND_FINISHED, NEXT_ROUND} from "../../Events";
 import {TileToPixel} from "../../Utils";
 import Camera from "../Camera";

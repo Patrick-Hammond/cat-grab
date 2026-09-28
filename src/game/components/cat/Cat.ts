@@ -1,11 +1,11 @@
 import gsap, {Linear} from "gsap";
 import {AdjustmentFilter} from "pixi-filters";
-import {FindShortestPath} from "@logic-incubator/_lib/algorithms/PathSearch";
-import {AnimationSequence} from "@logic-incubator/_lib/game/display/AnimationSequence";
-import {RemoveFromParent, CallbackDone} from "@logic-incubator/_lib/game/display/Utils";
-import GameComponent from "@logic-incubator/_lib/game/GameComponent";
-import {Vec2, Vec2Like} from "@logic-incubator/_lib/math/Geometry";
-import {Wait} from "@logic-incubator/_lib/game/Timing";
+import {FindShortestPath} from "@logic-incubator/lib/algorithms/PathSearch";
+import {AnimationSequence} from "@logic-incubator/lib/game/display/AnimationSequence";
+import {RemoveFromParent, CallbackDone} from "@logic-incubator/lib/game/display/Utils";
+import GameComponent from "@logic-incubator/lib/game/GameComponent";
+import {Vec2, Vec2Like} from "@logic-incubator/lib/math/Geometry";
+import {Wait} from "@logic-incubator/lib/game/Timing";
 import {PlayerHomeLocation, VikingHomeLocation} from "../../../Constants";
 import {CAT_FOLLOWING, CAT_HOME_PLAYER, CAT_HOME_VIKING, CAT_MOVED} from "../../Events";
 import {TileToPixel} from "../../Utils";

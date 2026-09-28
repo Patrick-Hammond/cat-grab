@@ -1,6 +1,6 @@
 
 import {DisplayObject} from "pixi.js";
-import GameComponent from "@logic-incubator/_lib/game/GameComponent";
+import GameComponent from "@logic-incubator/lib/game/GameComponent";
 import { GameHeight, GameWidth, Scenes } from "../../Constants";
 import gsap from "gsap";
 import { ROUND_FINISHED, NEXT_ROUND } from "../Events";

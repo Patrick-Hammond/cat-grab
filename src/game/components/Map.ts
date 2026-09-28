@@ -1,8 +1,8 @@
 import {Sprite} from "pixi.js";
-import {ISearchGraph, SearchNode} from "@logic-incubator/_lib/algorithms/PathSearch";
-import GameComponent from "@logic-incubator/_lib/game/GameComponent";
-import {Vec2Like} from "@logic-incubator/_lib/math/Geometry";
-import {Direction} from "@logic-incubator/_lib/utils/Types";
+import {ISearchGraph, SearchNode} from "@logic-incubator/lib/algorithms/PathSearch";
+import GameComponent from "@logic-incubator/lib/game/GameComponent";
+import {Vec2Like} from "@logic-incubator/lib/math/Geometry";
+import {Direction} from "@logic-incubator/lib/utils/Types";
 import {MapHeight, MapWidth} from "../../Constants";
 
 export enum TileType {

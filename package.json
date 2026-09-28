@@ -16,7 +16,7 @@
     "go": "npm run build && npm run start",
     "lint": "eslint ."
   },
-  "//dependencies": "logic-incubator's _lib is compiled from source into this bundle, resolving its packages from here rather than its own node_modules (see webpack.config.js) - so its runtime dependencies are listed here too: eventemitter3, nipplejs, screenfull, stats.js. Keep their versions matching logic-incubator's.",
+  "//dependencies": "logic-incubator's lib package is compiled from source into this bundle, resolving its packages from here rather than its own node_modules (see webpack.config.js) - so its runtime dependencies are listed here too: eventemitter3, nipplejs, screenfull, stats.js. Keep their versions matching logic-incubator's.",
   "dependencies": {
     "eventemitter3": "^4.0.0",
     "gsap": "3.6.0",

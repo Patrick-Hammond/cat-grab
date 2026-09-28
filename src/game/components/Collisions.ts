@@ -1,10 +1,10 @@
-import GameComponent from "@logic-incubator/_lib/game/GameComponent";
-import {Vec2, Vec2Like} from "@logic-incubator/_lib/math/Geometry";
+import GameComponent from "@logic-incubator/lib/game/GameComponent";
+import {Vec2, Vec2Like} from "@logic-incubator/lib/math/Geometry";
 import Player from "./player/Player";
 import {PLAYER_MOVED, VIKING_MOVED} from "../Events";
 import Cats from "./cat/Cats";
 import Viking from "./viking/Viking";
-import { Queue } from "@logic-incubator/_lib/datastructures/Queue";
+import { Queue } from "@logic-incubator/lib/datastructures/Queue";
 
 export default class Collisions extends GameComponent {
 

@@ -1,4 +1,4 @@
-import GameComponent from "@logic-incubator/_lib/game/GameComponent";
+import GameComponent from "@logic-incubator/lib/game/GameComponent";
 import { CAT_HOME_PLAYER, CAT_HOME_VIKING, NEXT_ROUND, ROUND_FINISHED } from "../Events";
 import Cat from "./cat/Cat";
 

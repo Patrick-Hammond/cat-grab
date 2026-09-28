@@ -1,4 +1,4 @@
-import GameComponent from "@logic-incubator/_lib/game/GameComponent";
+import GameComponent from "@logic-incubator/lib/game/GameComponent";
 import Camera from "./components/Camera";
 import HomePlayer from "./components/player/HomePlayer";
 import HomeViking from "./components/viking/HomeViking";

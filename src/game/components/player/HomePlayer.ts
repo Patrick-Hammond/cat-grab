@@ -1,7 +1,7 @@
 import {AdjustmentFilter} from "pixi-filters";
 import {RenderTexture, Sprite} from "pixi.js";
-import GameComponent from "@logic-incubator/_lib/game/GameComponent";
-import {RGB} from "@logic-incubator/_lib/utils/Types";
+import GameComponent from "@logic-incubator/lib/game/GameComponent";
+import {RGB} from "@logic-incubator/lib/utils/Types";
 import {CAT_HOME_PLAYER, NEXT_ROUND} from "../../Events";
 
 export default class HomePlayer extends GameComponent {

@@ -1,7 +1,7 @@
-import GameComponent from "@logic-incubator/_lib/game/GameComponent";
+import GameComponent from "@logic-incubator/lib/game/GameComponent";
 import { Sprite, Rectangle } from "pixi.js";
 import { TITLE_SCREEN_CLOSED } from "../../Events";
-import { CenterScreen, RemoveFromParent } from "@logic-incubator/_lib/game/display/Utils";
+import { CenterScreen, RemoveFromParent } from "@logic-incubator/lib/game/display/Utils";
 
 export default class TitlePage extends GameComponent {
 

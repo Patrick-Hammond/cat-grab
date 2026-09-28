@@ -3,9 +3,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
-// logic-incubator's _lib is compiled from source, straight out of its checkout
-// beside this one - the same folder tsconfig.json's "@logic-incubator/*" path points at.
-const LOGIC_INCUBATOR = path.resolve(__dirname, '../logic-incubator/src');
+// logic-incubator's lib package is compiled from source, straight out of its checkout
+// beside this one - the same folder tsconfig.json's "@logic-incubator/lib/*" path points at.
+const LOGIC_INCUBATOR = path.resolve(__dirname, '../logic-incubator/packages');
 const NODE_MODULES = path.resolve(__dirname, 'node_modules');
 
 module.exports = (env, argv) => {
@@ -27,12 +27,12 @@ module.exports = (env, argv) => {
     plugins: [
       new HtmlWebpackPlugin({
         title: 'Cat Grab',
-        template: path.join(LOGIC_INCUBATOR, '_lib/html/index.template')
+        template: path.join(LOGIC_INCUBATOR, 'lib/html/index.template')
       }),
       new CopyWebpackPlugin({
         patterns: [
           { from: './src/assets', to: 'assets' },
-          { from: path.join(LOGIC_INCUBATOR, '_lib/html/index.styles.css'), to: 'index.styles.css' }
+          { from: path.join(LOGIC_INCUBATOR, 'lib/html/index.styles.css'), to: 'index.styles.css' }
         ]
       })
     ],

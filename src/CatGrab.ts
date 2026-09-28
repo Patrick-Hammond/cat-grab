@@ -1,5 +1,5 @@
-import Game from "@logic-incubator/_lib/game/Game";
-import Loader from "@logic-incubator/_lib/loading/Loader";
+import Game from "@logic-incubator/lib/game/Game";
+import Loader from "@logic-incubator/lib/loading/Loader";
 import { AssetPath, GameHeight, GameWidth, Scenes } from "./Constants";
 import CatGrabMain from "./game/CatGrabMain";
 import TitlePage from "./game/components/scenes/TitlePage";

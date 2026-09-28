@@ -1,11 +1,11 @@
 
-import GameComponent from "@logic-incubator/_lib/game/GameComponent";
-import { Vec2Like, Vec2 } from "@logic-incubator/_lib/math/Geometry";
+import GameComponent from "@logic-incubator/lib/game/GameComponent";
+import { Vec2Like, Vec2 } from "@logic-incubator/lib/math/Geometry";
 import { Sprite } from "pixi.js";
-import ObjectPool from "@logic-incubator/_lib/patterns/ObjectPool";
-import AssetFactory from "@logic-incubator/_lib/loading/AssetFactory";
+import ObjectPool from "@logic-incubator/lib/patterns/ObjectPool";
+import AssetFactory from "@logic-incubator/lib/loading/AssetFactory";
 import { TileToPixel } from "../Utils";
-import { RemoveFromParent } from "@logic-incubator/_lib/game/display/Utils";
+import { RemoveFromParent } from "@logic-incubator/lib/game/display/Utils";
 
 export default class Springs extends GameComponent {
 

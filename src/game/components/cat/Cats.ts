@@ -1,10 +1,10 @@
-import GameComponent from "@logic-incubator/_lib/game/GameComponent";
-import ObjectPool from "@logic-incubator/_lib/patterns/ObjectPool";
+import GameComponent from "@logic-incubator/lib/game/GameComponent";
+import ObjectPool from "@logic-incubator/lib/patterns/ObjectPool";
 import Cat from "./Cat";
 import Map from "../Map";
 import {CAT_POSITIONS, CAT_HOME_PLAYER, CAT_HOME_VIKING, NEXT_ROUND} from "../../Events";
-import { GetInterval, Wait } from "@logic-incubator/_lib/game/Timing";
-import { Vec2Like } from "@logic-incubator/_lib/math/Geometry";
+import { GetInterval, Wait } from "@logic-incubator/lib/game/Timing";
+import { Vec2Like } from "@logic-incubator/lib/math/Geometry";
 
 export default class Cats extends GameComponent {
 

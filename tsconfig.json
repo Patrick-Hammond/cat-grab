@@ -19,12 +19,12 @@
     "noUnusedParameters": false,
     "baseUrl": ".",
     "paths": {
-      "@logic-incubator/*": ["../logic-incubator/src/*"]
+      "@logic-incubator/lib/*": ["../logic-incubator/packages/lib/src/*"]
     }
   },
   "include": [
     "src",
-    // The engine's ambient declarations (e.g. its shader imports) - its .ts files come in through imports.
-    "../logic-incubator/src/**/*.d.ts"
+    // logic-incubator's lib ambient declarations (e.g. its shader imports) - its .ts files come in through imports.
+    "../logic-incubator/packages/lib/src/**/*.d.ts"
   ]
 }

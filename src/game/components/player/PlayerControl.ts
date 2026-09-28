@@ -1,8 +1,8 @@
-import GameComponent from "@logic-incubator/_lib/game/GameComponent";
-import GamePad from "@logic-incubator/_lib/io/GamePad";
-import Keyboard, {Key} from "@logic-incubator/_lib/io/Keyboard";
-import {Direction} from "@logic-incubator/_lib/utils/Types";
-import VirtualJoystick from "@logic-incubator/_lib/io/VirtualJoystick";
+import GameComponent from "@logic-incubator/lib/game/GameComponent";
+import GamePad from "@logic-incubator/lib/io/GamePad";
+import Keyboard, {Key} from "@logic-incubator/lib/io/Keyboard";
+import {Direction} from "@logic-incubator/lib/utils/Types";
+import VirtualJoystick from "@logic-incubator/lib/io/VirtualJoystick";
 import { utils } from "pixi.js";
 
 export type PlayerInput =  Direction | "fire";

@@ -1,8 +1,8 @@
-import GameComponent from "@logic-incubator/_lib/game/GameComponent";
+import GameComponent from "@logic-incubator/lib/game/GameComponent";
 import { Sprite, BitmapText, Rectangle } from "pixi.js";
 import { ROUND_FINISHED, NEXT_ROUND } from "../../Events";
 import { Scenes } from "../../../Constants";
-import { CenterScreen, CenterOn, RemoveFromParent } from "@logic-incubator/_lib/game/display/Utils";
+import { CenterScreen, CenterOn, RemoveFromParent } from "@logic-incubator/lib/game/display/Utils";
 
 export default class Summary extends GameComponent {
 
