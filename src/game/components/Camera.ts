@@ -1,7 +1,7 @@
 
 import {DisplayObject} from "pixi.js";
 import GameComponent from "@logic-incubator/lib/game/GameComponent";
-import { GameHeight, GameWidth, Scenes } from "../../Constants";
+import { GameHeight, GameWidth } from "../../Constants";
 import gsap from "gsap";
 import { ROUND_FINISHED, NEXT_ROUND } from "../Events";
 import { KawaseBlurFilter } from "pixi-filters";
@@ -11,14 +11,15 @@ export default class Camera extends GameComponent {
     private scale: number = 1.5;
     private blur = new KawaseBlurFilter(4, 5);
 
-    constructor() {
-        super();
-
-        this.AddToScene(Scenes.GAME);
+    protected OnInitialise(): void {
         this.root.scale.set(this.scale);
 
-        this.game.dispatcher.on(ROUND_FINISHED, this.OnRoundFinished, this);
-        this.game.dispatcher.on(NEXT_ROUND, this.OnNextRound, this);
+        this.Listen(this.game.dispatcher, ROUND_FINISHED, this.OnRoundFinished);
+        this.Listen(this.game.dispatcher, NEXT_ROUND, this.OnNextRound);
+    }
+
+    protected OnDestroy(): void {
+        gsap.killTweensOf(this.root);
     }
 
     Follow(sprite: DisplayObject): void {

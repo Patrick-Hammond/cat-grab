@@ -5,7 +5,7 @@ import {AnimationSequence} from "@logic-incubator/lib/game/display/AnimationSequ
 import {RemoveFromParent, CallbackDone} from "@logic-incubator/lib/game/display/Utils";
 import GameComponent from "@logic-incubator/lib/game/GameComponent";
 import {Vec2, Vec2Like} from "@logic-incubator/lib/math/Geometry";
-import {Wait} from "@logic-incubator/lib/game/Timing";
+import {Cancel, Wait} from "@logic-incubator/lib/game/Timing";
 import {PlayerHomeLocation, VikingHomeLocation} from "../../../Constants";
 import {CAT_FOLLOWING, CAT_HOME_PLAYER, CAT_HOME_VIKING, CAT_MOVED} from "../../Events";
 import {TileToPixel} from "../../Utils";
@@ -22,6 +22,8 @@ export default class Cat extends GameComponent {
     private tint = new AdjustmentFilter();
     private speed = Math.random() * 0.5 + 1;
     private state: CatState;
+    /** The delays still waiting to fire, for `Recall` to cancel. */
+    private waits: Cancel[] = [];
 
     constructor(private parent: PIXI.Container, private map: Map) {
         super();
@@ -60,10 +62,27 @@ export default class Cat extends GameComponent {
         }
     }
 
-    Destroy(): void {
+    /**
+     * Puts the cat away - back to its pool, or home: stops its tweens, delays and animation and
+     * takes it off the stage, so it doesn't carry on moving where nobody can see it. (Not
+     * `Destroy`, which is `GameComponent`'s - the end of the cat's life, not of its turn.)
+     */
+    Recall(): void {
+        gsap.killTweensOf(this.anim.root);
+        this.waits.forEach(cancel => cancel());
+        this.waits = [];
         this.followTartget = null;
         this.anim.Stop();
         RemoveFromParent(this.root);
+    }
+
+    /** `Wait`, except that `Recall` can cancel it. */
+    private After(ms: number, callback: () => void): void {
+        const cancel = Wait(ms, () => {
+            this.waits.splice(this.waits.indexOf(cancel), 1);
+            callback();
+        });
+        this.waits.push(cancel);
     }
 
     private MoveTo(x: number, y: number, onComplete?: () => void): void {
@@ -80,7 +99,7 @@ export default class Cat extends GameComponent {
             this.anim.PlayLooped(pos.y > root.y ? "cat_walkd" : "cat_walku");
         }
 
-        Wait(this.speed * 0.75, () => this.game.dispatcher.emit(CAT_MOVED, this));
+        this.After(this.speed * 0.75, () => this.game.dispatcher.emit(CAT_MOVED, this));
     }
 
     private MoveToFollowTarget(): void {
@@ -94,7 +113,7 @@ export default class Cat extends GameComponent {
             this.MoveTo(path[1].x, path[1].y, () => this.MoveToFollowTarget());
         } else {
             this.anim.Play("cat_sit");
-            Wait(1000, this.MoveToFollowTarget, this);
+            this.After(1000, () => this.MoveToFollowTarget());
         }
     }
 
@@ -124,7 +143,7 @@ export default class Cat extends GameComponent {
         const isHome = homePlayer || homeViking;
         if (isHome) {
             this.state = CatState.HOME;
-            this.Destroy();
+            this.Recall();
             this.game.dispatcher.emit(homePlayer ? CAT_HOME_PLAYER : CAT_HOME_VIKING,
                 {r: this.tint.red, g: this.tint.green, b: this.tint.blue}, this);
         }

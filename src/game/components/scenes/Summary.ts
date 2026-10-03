@@ -1,9 +1,9 @@
 import GameComponent from "@logic-incubator/lib/game/GameComponent";
 import { Sprite, BitmapText, Rectangle } from "pixi.js";
 import { ROUND_FINISHED, NEXT_ROUND } from "../../Events";
-import { Scenes } from "../../../Constants";
-import { CenterScreen, CenterOn, RemoveFromParent } from "@logic-incubator/lib/game/display/Utils";
+import { CenterScreen, CenterOn } from "@logic-incubator/lib/game/display/Utils";
 
+/** The round's result, over the game: part of `CatGrabMain` rather than a scene of its own, and out of sight between rounds. */
 export default class Summary extends GameComponent {
 
     private player: Sprite;
@@ -13,9 +13,7 @@ export default class Summary extends GameComponent {
 
     private background : Sprite;
 
-    constructor() {
-        super();
-
+    protected OnInitialise(): void {
         this.background = this.assetFactory.CreateSprite("victory");
         this.background.hitArea = new Rectangle(171, 447, 178, 96);
         this.background.interactive = true;
@@ -43,24 +41,30 @@ export default class Summary extends GameComponent {
 
         this.background.addChild(this.player, this.viking, this.playerText, this.vikingText);
         this.root.addChild(this.background);
+        this.root.visible = false;
 
-        this.game.dispatcher.on(ROUND_FINISHED, this.Show, this);
+        this.Listen(this.game.dispatcher, ROUND_FINISHED, this.OnRoundFinished);
     }
 
-    private Show(playerWon: boolean, playerRoundsWon: string, vikingRoundsWon: string): void {
-        this.AddToScene(Scenes.GAME);
+    protected OnHide(): void {
+        // Closed with the game, not by a click: no click is left waiting for the next time.
+        this.background.off("pointerup", this.OnClicked, this);
+        this.root.visible = false;
+    }
 
+    private OnRoundFinished(playerWon: boolean, playerRoundsWon: string, vikingRoundsWon: string): void {
         this.player.visible = playerWon;
         this.viking.visible = !playerWon;
 
         this.playerText.text = playerRoundsWon;
         this.vikingText.text = vikingRoundsWon;
 
-        this.background.once("pointerup", this.Hide, this);
+        this.root.visible = true;
+        this.background.once("pointerup", this.OnClicked, this);
     }
 
-    private Hide(): void {
-        RemoveFromParent(this.root);
+    private OnClicked(): void {
+        this.root.visible = false;
         this.game.dispatcher.emit(NEXT_ROUND);
     }
 }

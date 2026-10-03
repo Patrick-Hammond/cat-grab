@@ -13,9 +13,11 @@ export default class Collisions extends GameComponent {
     constructor(private player: Player, private viking: Viking, private cats: Cats) {
 
         super();
+    }
 
-        this.game.dispatcher.on(PLAYER_MOVED, this.OnPlayerMoved, this);
-        this.game.dispatcher.on(VIKING_MOVED, this.OnVikingMoved, this);
+    protected OnInitialise(): void {
+        this.Listen(this.game.dispatcher, PLAYER_MOVED, this.OnPlayerMoved);
+        this.Listen(this.game.dispatcher, VIKING_MOVED, this.OnVikingMoved);
     }
 
     private OnPlayerMoved(position: Vec2): void {

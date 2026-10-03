@@ -11,10 +11,6 @@ export default class Springs extends GameComponent {
 
     private springPool: ObjectPool<Spring>;
 
-    constructor() {
-        super();
-    }
-
     protected OnInitialise(): void {
         this.springPool = new ObjectPool<Spring>(1, () => new Spring());
     }
