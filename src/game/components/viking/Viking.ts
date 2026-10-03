@@ -37,12 +37,20 @@ export default class Viking extends GameComponent {
         this.anim.play();
         this.root.addChild(this.anim);
 
+        // Made here, not on initialise: `CatGrabMain` attaches it to the world before the viking itself, to be drawn beneath it.
         this.springs = new Springs();
+    }
 
-        this.game.dispatcher.on(CAT_FOLLOWING, this.OnCatFollowing, this);
-        this.game.dispatcher.on(CAT_POSITIONS, (cats) => this.catPositions = cats);
-        this.game.dispatcher.on(ROUND_FINISHED, this.OnRoundFinished, this);
-        this.game.dispatcher.on(NEXT_ROUND, this.OnNextRound, this);
+    protected OnInitialise(): void {
+        this.Listen(this.game.dispatcher, CAT_FOLLOWING, this.OnCatFollowing);
+        this.Listen(this.game.dispatcher, CAT_POSITIONS, (cats) => this.catPositions = cats);
+        this.Listen(this.game.dispatcher, ROUND_FINISHED, this.OnRoundFinished);
+        this.Listen(this.game.dispatcher, NEXT_ROUND, this.OnNextRound);
+    }
+
+    protected OnDestroy(): void {
+        this.cancelDelayedPatrol();
+        gsap.killTweensOf(this.anim);
     }
 
     get Springs(): Springs {

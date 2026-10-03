@@ -23,8 +23,13 @@ export default class HomeViking extends GameComponent {
             this.cats.push(cat);
         }
 
-        this.game.dispatcher.on(CAT_HOME_VIKING, this.OnCatHome, this);
-        this.game.dispatcher.on(NEXT_ROUND, this.OnRoundStart, this);
+        this.Listen(this.game.dispatcher, CAT_HOME_VIKING, this.OnCatHome);
+        this.Listen(this.game.dispatcher, NEXT_ROUND, this.OnRoundStart);
+    }
+
+    protected OnDestroy(): void {
+        // Render textures are GPU memory, and aren't freed with the sprites that show them.
+        this.cats.forEach(cat => cat.texture.destroy(true));
     }
 
     private OnCatHome(tint: RGB): void {

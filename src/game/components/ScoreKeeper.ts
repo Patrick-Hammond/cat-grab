@@ -14,10 +14,12 @@ export default class ScoreKeeper extends GameComponent {
 
         this.playerRoundsWon = this.vikingRoundsWon = 0;
         this.catsHomePlayer  = this.catsHomeViking = 0;
+    }
 
-        this.game.dispatcher.on(NEXT_ROUND, this.OnRoundStart, this);
-        this.game.dispatcher.on(CAT_HOME_PLAYER, (tint, cat) => this.OnCatHome("player", cat));
-        this.game.dispatcher.on(CAT_HOME_VIKING, (tint, cat) => this.OnCatHome("viking", cat));
+    protected OnInitialise(): void {
+        this.Listen(this.game.dispatcher, NEXT_ROUND, this.OnRoundStart);
+        this.Listen(this.game.dispatcher, CAT_HOME_PLAYER, (tint, cat) => this.OnCatHome("player", cat));
+        this.Listen(this.game.dispatcher, CAT_HOME_VIKING, (tint, cat) => this.OnCatHome("viking", cat));
     }
 
     private OnRoundStart(): void {

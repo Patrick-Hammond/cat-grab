@@ -3,33 +3,46 @@ import ObjectPool from "@logic-incubator/lib/patterns/ObjectPool";
 import Cat from "./Cat";
 import Map from "../Map";
 import {CAT_POSITIONS, CAT_HOME_PLAYER, CAT_HOME_VIKING, NEXT_ROUND} from "../../Events";
-import { GetInterval, Wait } from "@logic-incubator/lib/game/Timing";
+import { Cancel, GetInterval, Wait } from "@logic-incubator/lib/game/Timing";
 import { Vec2Like } from "@logic-incubator/lib/math/Geometry";
 
 export default class Cats extends GameComponent {
 
     private cats: ObjectPool<Cat>;
     private catDispatched: number;
+    /** What `Start` set going, for as long as the game is showing. */
+    private timers: Cancel[] = [];
 
-
-    constructor(map: Map) {
-
+    constructor(private map: Map) {
         super();
+    }
 
-        this.cats = new ObjectPool<Cat>(6, () => new Cat(this.root, map), cat => cat.Destroy());
+    protected OnInitialise(): void {
+        this.cats = new ObjectPool<Cat>(6, () => new Cat(this.root, this.map), cat => cat.Recall());
 
-        this.game.dispatcher.on(CAT_HOME_PLAYER, (tint, cat) => this.OnCatHome(cat));
-        this.game.dispatcher.on(CAT_HOME_VIKING, (tint, cat) => this.OnCatHome(cat));
-        this.game.dispatcher.on(NEXT_ROUND, this.OnRoundStart, this);
+        this.Listen(this.game.dispatcher, CAT_HOME_PLAYER, (tint, cat) => this.OnCatHome(cat));
+        this.Listen(this.game.dispatcher, CAT_HOME_VIKING, (tint, cat) => this.OnCatHome(cat));
+        this.Listen(this.game.dispatcher, NEXT_ROUND, this.OnRoundStart);
+    }
+
+    protected OnHide(): void {
+        this.StopTimers();
+    }
+
+    protected OnDestroy(): void {
+        this.StopTimers();
+        this.cats.RestoreAll();
     }
 
     Start(): void {
         this.catDispatched = 0;
 
-        GetInterval(5000, this.DispatchNext, this);
-        Wait(500, this.DispatchNext, this);
-
-        GetInterval(5000, this.BroadcastPositions, this);
+        this.StopTimers();
+        this.timers.push(
+            GetInterval(5000, this.DispatchNext, this),
+            Wait(500, this.DispatchNext, this),
+            GetInterval(5000, this.BroadcastPositions, this)
+        );
     }
 
     CheckCollision(position: Vec2Like): Cat[] {
@@ -54,5 +67,10 @@ export default class Cats extends GameComponent {
     private OnRoundStart(): void {
         this.catDispatched = 0;
         this.cats.RestoreAll();
+    }
+
+    private StopTimers(): void {
+        this.timers.forEach(cancel => cancel());
+        this.timers = [];
     }
 }

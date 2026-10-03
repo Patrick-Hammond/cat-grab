@@ -17,10 +17,18 @@ export default class PlayerControl extends GameComponent {
 
         this.keyboard = this.game.keyboard;
         this.gamePad = this.game.gamePad;
+    }
 
+    protected OnInitialise(): void {
         if(utils.isMobile.any) {
             this.virtualJoystick = new VirtualJoystick();
             this.virtualJoystick.Create();
+        }
+    }
+
+    protected OnDestroy(): void {
+        if(this.virtualJoystick) {
+            this.virtualJoystick.Destroy();
         }
     }
 

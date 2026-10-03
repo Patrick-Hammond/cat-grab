@@ -31,13 +31,22 @@ export default class Player extends GameComponent {
         this.anim.animationSpeed = 0.1;
         this.root.addChild(this.anim);
 
+        // Made here, not on initialise: `CatGrabMain` attaches it to the world before the player itself, to be drawn beneath it.
         this.springs = new Springs();
-        this.playerControl = new PlayerControl(0);
+    }
 
-        this.game.ticker.add(this.OnUpdate, this);
+    protected OnInitialise(): void {
+        this.playerControl = this.Attach(new PlayerControl(0));
 
-        this.game.dispatcher.on(NEXT_ROUND, this.OnNextRound, this);
-        this.game.dispatcher.on(ROUND_FINISHED, this.OnRoundFinished, this);
+        // Only while the game is showing - not behind the title.
+        this.Tick(this.OnUpdate);
+
+        this.Listen(this.game.dispatcher, NEXT_ROUND, this.OnNextRound);
+        this.Listen(this.game.dispatcher, ROUND_FINISHED, this.OnRoundFinished);
+    }
+
+    protected OnDestroy(): void {
+        gsap.killTweensOf(this.anim);
     }
 
     get Springs(): Springs {

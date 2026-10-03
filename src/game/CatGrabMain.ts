@@ -9,6 +9,7 @@ import Collisions from "./components/Collisions";
 import Cats from "./components/cat/Cats";
 import {PlayerHomeLocation, VikingHomeLocation, Scenes} from "../Constants";
 import ScoreKeeper from "./components/ScoreKeeper";
+import Summary from "./components/scenes/Summary";
 import { TITLE_SCREEN_CLOSED } from "./Events";
 
 export default class CatGrabMain extends GameComponent {
@@ -21,14 +22,9 @@ export default class CatGrabMain extends GameComponent {
     private vikingHome: HomeViking;
     private cats: Cats;
 
-    constructor() {
-        super();
-        this.game.dispatcher.once(TITLE_SCREEN_CLOSED, this.Start, this);
-    }
-
     protected OnInitialise(): void {
 
-        this.camera = new Camera();
+        this.camera = this.Attach(new Camera());
 
         this.map = new Map();
 
@@ -40,25 +36,35 @@ export default class CatGrabMain extends GameComponent {
 
         this.cats = new Cats(this.map);
 
-        new Collisions(this.player, this.viking, this.cats);
+        // The world, in the camera and drawn back to front in the order it's attached.
+        const world = this.camera;
+        world.root.addChild(this.map.background);
+        world.Attach(this.player.Springs);
+        world.Attach(this.viking.Springs);
+        world.Attach(this.cats);
+        world.Attach(this.viking);
+        world.Attach(this.player);
+        world.Attach(this.playerHome);
+        world.Attach(this.vikingHome);
+        world.root.addChild(this.map.foreground);
 
-        new ScoreKeeper();
+        // The rules - nothing to draw.
+        this.Attach(new Collisions(this.player, this.viking, this.cats));
+        this.Attach(new ScoreKeeper());
 
-        this.camera.root.addChild(
-            this.map.background,
-            this.player.Springs.root, this.viking.Springs.root,
-            this.cats.root, this.viking.root, this.player.root,
-            this.playerHome.root, this.vikingHome.root,
-            this.map.foreground
-            );
+        // After the camera, so a round's result is drawn over the world.
+        this.Attach(new Summary());
+
+        this.Listen(this.game.dispatcher, TITLE_SCREEN_CLOSED, this.OnTitleClosed);
     }
 
-    private Start(): void {
-
-        this.game.sceneManager.ShowScene(Scenes.GAME);
-
+    protected OnShow(): void {
         this.player.Start(PlayerHomeLocation);
         this.viking.Start(VikingHomeLocation);
         this.cats.Start();
+    }
+
+    private OnTitleClosed(): void {
+        this.game.sceneManager.ShowScene(Scenes.GAME);
     }
 }
