@@ -24,7 +24,7 @@ export default class Summary extends GameComponent {
         this.player.scale.set(2.5);
         CenterOn(this.player, this.background).y = 46;
 
-        this.playerText = this.assetFactory.CreateBitmapText("numbers-export", 46);
+        this.playerText = this.assetFactory.CreateBitmapText(this.game.assets.FontName("global.numbers_export"), 46);
         this.playerText.anchor = 0.5;
         this.playerText.text = "34";
         this.playerText.position.set(136, 380);
@@ -34,7 +34,7 @@ export default class Summary extends GameComponent {
         this.viking.scale.set(4.5);
         CenterOn(this.viking, this.background).y = 46;
 
-        this.vikingText = this.assetFactory.CreateBitmapText("numbers-export", 46);
+        this.vikingText = this.assetFactory.CreateBitmapText(this.game.assets.FontName("global.numbers_export"), 46);
         this.vikingText.anchor = 0.5;
         this.vikingText.text = "67";
         this.vikingText.position.set(379, 380);

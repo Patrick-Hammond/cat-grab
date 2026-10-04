@@ -1,0 +1,5 @@
+{
+	"roots": [{ "dir": "assets" }],
+	"out": ".assets",
+	"dts": "src/generated/assets.d.ts"
+}
