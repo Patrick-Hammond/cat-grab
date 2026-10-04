@@ -1,0 +1,61 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # The game compiles logic-incubator from source out of the folder beside it (see webpack.config.js and tsconfig.json), and
+      # runs its asset build from there, so the two are checked out side by side.
+      - uses: actions/checkout@v7
+        with:
+          path: cat-grab
+
+      - uses: actions/checkout@v7
+        with:
+          repository: Patrick-Hammond/logic-incubator
+          path: logic-incubator
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: |
+            logic-incubator/package-lock.json
+            cat-grab/package-lock.json
+
+      - name: Install logic-incubator
+        working-directory: logic-incubator
+        run: npm ci
+
+      - name: Install the game
+        working-directory: cat-grab
+        run: npm ci
+
+      # Reports problems without failing the run: the code that was here before CI has a few old ones, a separate clean-up.
+      # Drop `continue-on-error` once `npm run lint` is clean.
+      - name: Lint
+        working-directory: cat-grab
+        run: npm run lint
+        continue-on-error: true
+
+      # Fails if the committed src/generated/assets.d.ts is out of date with the assets folder.
+      - name: Check the asset ids
+        working-directory: cat-grab
+        run: npm run assets:check
+
+      - name: Build
+        working-directory: cat-grab
+        run: npm run deploy
