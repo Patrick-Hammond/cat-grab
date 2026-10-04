@@ -2,6 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+const AssetsWebpackPlugin = require('../logic-incubator/packages/lib/scripts/assets/webpack-plugin');
 
 // logic-incubator's lib package is compiled from source, straight out of its checkout
 // beside this one - the same folder tsconfig.json's "@logic-incubator/lib/*" path points at.
@@ -29,9 +30,12 @@ module.exports = (env, argv) => {
         title: 'Cat Grab',
         template: path.join(LOGIC_INCUBATOR, 'lib/html/index.template')
       }),
+      // Builds the asset bundles (see assets.config.json) before each compile - and when art changes, under the dev server.
+      new AssetsWebpackPlugin({ configPath: path.resolve(__dirname, 'assets.config.json') }),
       new CopyWebpackPlugin({
         patterns: [
-          { from: './src/assets', to: 'assets' },
+          // What the asset build produced: manifest.json and the bundles' atlases and fonts.
+          { from: path.resolve(__dirname, '.assets/public'), to: 'assets' },
           { from: path.join(LOGIC_INCUBATOR, 'lib/html/index.styles.css'), to: 'index.styles.css' }
         ]
       })

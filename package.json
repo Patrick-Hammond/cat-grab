@@ -14,8 +14,11 @@
     "build": "webpack --mode development",
     "deploy": "webpack --mode production",
     "go": "npm run build && npm run start",
+    "assets": "node ../logic-incubator/packages/lib/scripts/build-assets.js --report",
+    "assets:check": "node ../logic-incubator/packages/lib/scripts/build-assets.js --check",
     "lint": "eslint ."
   },
+  "//assets": "assets/ is the source: each folder in it is a bundle (here just global). The build (run by webpack, or `npm run assets`) writes .assets/public/manifest.json and the typed ids in src/generated/assets.d.ts (committed) - see ../logic-incubator/packages/lib/scripts/build-assets.js.",
   "//dependencies": "logic-incubator's lib package is compiled from source into this bundle, resolving its packages from here rather than its own node_modules (see webpack.config.js) - so its runtime dependencies are listed here too: eventemitter3, nipplejs, screenfull, stats.js. Keep their versions matching logic-incubator's.",
   "dependencies": {
     "eventemitter3": "^4.0.0",
